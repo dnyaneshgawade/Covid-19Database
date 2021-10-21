@@ -1,0 +1,24 @@
+/* Creating stored procedure for Delete data*/
+create procedure sp_deleteData(in state text,in positive int)
+     begin
+               declare exit handler for sqlexception
+               begin
+               rollback;
+               end;
+    
+               declare exit handler for sqlwarning
+               begin
+               rollback;
+               end;
+    
+               start transaction;
+               delete from statewisetestingdetails where State=state and Negative=negative;
+               select * from statewisetestingdetails;
+               commit;
+     end//
+
+
+
+
+/* procedure calls*/
+call sp_deleteData("Andaman and Nicobar Islands",1210);

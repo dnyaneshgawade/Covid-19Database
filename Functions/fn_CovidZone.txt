@@ -1,0 +1,19 @@
+/* creating function for Covid Zone*/
+
+     create function CovidZone(Positive int )
+    
+     returns varchar(50)
+     deterministic
+     begin
+     declare Zone varchar(50);
+     if Positive > 15000 then set Zone='Red';
+     elseif( Positive >=10000 and  Positive <=15000) then set Zone='Orange';
+     elseif( Positive <10000 ) then set Zone='Green';
+     end if;
+     return(Zone);
+     end//
+
+
+    /*calling function*/
+
+    mysql> select Date,State,CovidZone(Positive) from statewisetestingdetails;

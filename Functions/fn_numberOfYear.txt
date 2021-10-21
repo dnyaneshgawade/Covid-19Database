@@ -1,0 +1,20 @@
+
+
+/* creating function for Covid Zone*/
+
+CREATE FUNCTION no_of_years(Date date) 
+RETURNS int 
+DETERMINISTIC
+BEGIN
+     DECLARE date2 date;
+     select current_date() into date2;
+     return year(date2)-year(Date);
+end
+//
+
+
+
+
+/*calling function*/
+
+mysql> select Date,State/UnionTerritory,no_of_years(Date) as 'years' from covid_19_india

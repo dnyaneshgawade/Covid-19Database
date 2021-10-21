@@ -1,0 +1,31 @@
+
+/* Creating stored procedure for Aggregate Functions*/
+create procedure sp_aggregateFunction()
+          begin
+          declare exit handler for sqlexception
+          begin
+          rollback;
+          end;
+    
+          declare exit handler for sqlwarning
+          begin
+          rollback;
+          end;
+    
+          start transaction;
+          select Date,State/UnionTerritory,max( Confirmed) from covid_19_india;
+          select Date,State/UnionTerritory,min( Confirmed) from covid_19_india;
+          select Date,State/UnionTerritory,avg( Confirmed) from covid_19_india;
+          select Date,State/UnionTerritory,sum( Confirmed) from covid_19_india;
+          select Date,State/UnionTerritory,count(*) from covid_19_india;
+          select Date,State,max(Negative),max(Positive) from statewisetestingdetails;
+          select Date,State,min(Negative),min(Positive) from statewisetestingdetails;
+          select Date,State,avg(Negative),avg(Positive) from statewisetestingdetails;
+          select Date,State,sum(Negative),sum(Positive) from statewisetestingdetails;
+          select Date,State,count(*),count(*) from statewisetestingdetails;
+          commit;
+     end//
+
+
+/* procedure calls*/
+call sp_aggregateFunction()

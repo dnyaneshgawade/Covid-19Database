@@ -1,0 +1,17 @@
+/* Snapshot for all detabase*/
+C:\Program Files\MySQL\MySQL Server 8.0\bin> mysqldump -u root -p --all-databases --master-data > C:\Users\dnyan\dnyana\MySQLBackup\snapshot\allDatabaseSnapshot.db
+Enter password: ****
+
+
+
+
+/* Snapshot for Covid19Data detabase*/
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysqldump -u root -p --databases covid19data --master-data > C:\Users\dnyan\dnyana\MySQLBackup\snapshot\Covid19DataSnapshot.db
+Enter password: ****
+
+
+
+
+/* Snapshot for Covid19Data with excluding some tables*/
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysqldump -u root -p --databases lmsdatabase  --ignore-table=covid19data.StatewiseTestingDetails --master-data > C:\Users\dnyan\dnyana\MySQLBackup\snapshot\ignoreTableCovid19dataSnapshot.db
+Enter password: ****

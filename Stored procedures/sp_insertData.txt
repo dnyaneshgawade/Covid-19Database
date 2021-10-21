@@ -1,0 +1,22 @@
+
+/* Creating Stored procedure for insert data*/
+create procedure sp_insertData(in date2 text, in state2 text,in totalSample bigint,in negative bigint, in positive int)
+          begin
+          declare exit handler for sqlexception
+          begin
+          rollback;
+          end;
+    
+          declare exit handler for sqlwarning
+          begin
+          rollback;
+          end;
+    
+          start transaction;
+          insert intostatewisetestingdetails (Date,State,TotalSamples,Negative,Positive) values (date2,state2,totalSample,negative,positive);
+          commit;
+     end//
+
+
+/* Procedure Calls*/
+mysql> call sp_insertData("20-aug-2021","maharastra",20000000,10000000,10000000)

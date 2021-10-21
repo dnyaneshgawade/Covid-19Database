@@ -1,0 +1,25 @@
+/* Creating stored procedure for retrive data*/
+
+create procedure sp_retriveData()
+     begin
+     declare exit handler for sqlexception
+     begin
+     rollback;
+     end;
+    
+     declare exit handler for sqlwarning
+     begin
+     rollback;
+     end;
+    
+     start transaction;
+     select * from covid_19_india;
+     select * from covid_vaccine_statewise;
+     select * from statewisetestingdetails;
+     commit;
+end//
+
+
+/* procedure calls*/
+
+call sp_retriveData();

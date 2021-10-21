@@ -1,0 +1,21 @@
+   /* create trigger for before insert record*/
+ 
+    create trigger PositiveCheck
+    before insert
+    on statewisetestingdetails
+    for each row
+    begin
+    if new.Positive < 0 then set new.Positive=0;
+    end if;
+    end**
+
+
+    /* create trigger for after insert record*/
+	
+    create trigger AfterInsertRecord
+    after insert
+    on statewisetestingdetails
+    for each row
+    begin
+    insert into statewisetestingtrigger values(new.Date,new.State ,new.TotalSamples , new.Negative , new.Positive ,curtime());
+    end//

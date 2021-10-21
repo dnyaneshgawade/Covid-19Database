@@ -1,0 +1,25 @@
+ 
+/* Creating stored procedure for update data*/
+create procedure sp_updateData(in state text,in negative bigint,in positive int)
+     begin
+               declare exit handler for sqlexception
+               begin
+               rollback;
+               end;
+    
+               declare exit handler for sqlwarning
+               begin
+               rollback;
+               end;
+    
+               start transaction;
+               update statewisetestingdetails set Positive=positive where State=state and Negative=negative;
+               select * from statewisetestingdetails;
+               commit;
+     end//
+
+
+
+
+/* procedure calls*/
+call sp_updateData("Andhra Pradesh",1175,132);

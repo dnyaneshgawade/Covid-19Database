@@ -1,0 +1,9 @@
+
+/* MySQL Database backup*/
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysqldump -u root -p covid19data > C:\Users\dnyan\dnyana\MySQLBackup\covid19data.sql
+Enter password: ****
+
+
+/* MySQL Database Restore*/
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql -u root -p covid19data_restore < C:\Users\dnyan\dnyana\MySQLBackup\covid19data.sql
+Enter password: ****
