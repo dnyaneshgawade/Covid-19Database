@@ -1,0 +1,97 @@
+
+/* CREATE VIEW */
+CREATE VIEW Indian_Vs_forigner_confirmed AS
+SELECT Date,ConfirmedIndianNational,ConfirmedForeignNational
+from covid_19_india;
+
+
+/* DISPLAY VIEW */
+select * from Indian_Vs_forigner_confirmed;
+
+
+/* ALTER VIEW */
+ALTER VIEW Statewise_forigner_confirmed AS
+SELECT Date,Time,ConfirmedIndianNational,ConfirmedForeignNational
+from covid_19_india;
+
+
+/* DROP VIEW */
+mysql> drop view Indian_Vs_forigner_confirmed;
+
+ 
+
+/* CREATE VIEW */
+CREATE VIEW StateWiseTotalSamples AS
+Select Date,State,TotalSamples
+from statewisetestingdetails;
+
+
+/* DISPLAY VIEW */
+select * from StateWiseTotalSamples;
+
+
+/* DROP VIEW */
+drop view StateWiseTotalSamples;
+
+/* CREATE VIEW */
+CREATE VIEW PositiveFromMaharastra AS
+Select Date,State,TotalSamples,Positive
+from statewisetestingdetails
+where State = "Maharashtra";
+
+
+/* DISPLAY VIEW */
+select * from PositiveFromMaharastra;
+
+
+/* DROP VIEW */
+drop view PositiveFromMaharastra;
+
+
+/* CREATE VIEW */
+CREATE VIEW PositiveFromBihar AS
+Select Date,State,TotalSamples,Positive
+from statewisetestingdetails
+where State = "Bihar";
+
+
+/* DISPLAY VIEW */
+select * from PositiveFromBihar;
+
+
+/* DROP VIEW */
+drop view PositiveFromBihar;
+
+
+
+/* CREATE VIEW */
+CREATE VIEW NegativeFromMaharastra AS
+Select Date,State,TotalSamples,Negative
+from statewisetestingdetails
+where State = "Maharashtra";
+
+
+
+/* DISPLAY VIEW */
+select * from NegativeFromMaharastra;
+
+
+/* DROP VIEW */
+drop view NegativeFromMaharastra;
+
+
+/* CREATE VIEW */
+mysql> CREATE VIEW NegativeFromGoa AS
+Select Date,State,TotalSamples,Negative
+from statewisetestingdetails
+where State = "Goa";
+
+
+/* DISPLAY VIEW */
+select * from NegativeFromGoa;
+
+
+/* DROP VIEW */
+drop view NegativeFromGoa;
+
+

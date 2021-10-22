@@ -1,0 +1,26 @@
+/* create trigger for befor update  record*/
+
+     create trigger beforeupdate
+     before update
+     on statewisetestingdetails
+     for each row
+     begin
+     declare error_msg varchar(255);
+     set error_msg=('Positive patients cant be below zero');
+     if new.Positive<0 then signal sqlstate '45000'
+     set message_text=error_msg;
+     end if;
+     end//
+
+
+
+/* create trigger for after update record*/
+
+     create trigger afterUpdate
+     after update
+     on statewisetestingdetails
+     for each row
+     begin
+     insert into afterUpdateTrigger_info values(user(),
+     select cancat('Update Records',old.Positive,'NEW POSITIVE :',new.Positive ));
+     end//
