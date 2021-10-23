@@ -1,0 +1,166 @@
+
+/* Hash Partitioning */
+alter table statewisetestingdetails 
+partition by hash(Positive) 
+PARTITIONS 10;
+
+/* Show Partitions  */
+SELECT TABLE_NAME, PARTITION_NAME, TABLE_ROWS, AVG_ROW_LENGTH, DATA_LENGTH
+FROM INFORMATION_SCHEMA.PARTITIONS
+WHERE TABLE_SCHEMA = 'covid19data' AND TABLE_NAME = 'statewisetestingdetails';
+
++-------------------------+----------------+------------+----------------+-------------+
+| TABLE_NAME              | PARTITION_NAME | TABLE_ROWS | AVG_ROW_LENGTH | DATA_LENGTH |
++-------------------------+----------------+------------+----------------+-------------+
+| statewisetestingdetails | p0             |        622 |            131 |       81920 |
+| statewisetestingdetails | p1             |        632 |            129 |       81920 |
+| statewisetestingdetails | p2             |        579 |            141 |       81920 |
+| statewisetestingdetails | p3             |        550 |            119 |       65536 |
+| statewisetestingdetails | p4             |        565 |            115 |       65536 |
+| statewisetestingdetails | p5             |        522 |            125 |       65536 |
+| statewisetestingdetails | p6             |        540 |            121 |       65536 |
+| statewisetestingdetails | p7             |        583 |            112 |       65536 |
+| statewisetestingdetails | p8             |      11250 |            141 |     1589248 |
+| statewisetestingdetails | p9             |        520 |            126 |       65536 |
++-------------------------+----------------+------------+----------------+-------------+
+
+
+
+/* List Partitioning */
+
+create table statewisetestingdetailslistPartition
+(
+	id int,
+	date date,
+	state varchar(255),
+	total_sampler int,
+	negative int,
+	positive int
+)
+partition by list(id)
+(
+        partition list1 values in (1,2,3),
+        partition list2 values in (4,5,6),
+        partition list3 values in (7,8,9)
+);
+
+
+
+/* Show Partitions */
+SELECT TABLE_NAME, PARTITION_NAME, TABLE_ROWS, AVG_ROW_LENGTH, DATA_LENGTH
+FROM INFORMATION_SCHEMA.PARTITIONS
+WHERE TABLE_SCHEMA = 'covid19data' AND TABLE_NAME = 'statewisetestingdetailslistPartition';
+
++--------------------------------------+----------------+------------+----------------+-------------+
+| TABLE_NAME                           | PARTITION_NAME | TABLE_ROWS | AVG_ROW_LENGTH | DATA_LENGTH |
++--------------------------------------+----------------+------------+----------------+-------------+
+| statewisetestingdetailslistpartition | list1          |          0 |              0 |       16384 |
+| statewisetestingdetailslistpartition | list2          |          0 |              0 |       16384 |
+| statewisetestingdetailslistpartition | list3          |          0 |              0 |       16384 |
++--------------------------------------+----------------+------------+----------------+-------------+
+
+
+
+/* Range Partitioning */
+alter table covid_19_india  
+partition by range(Sno) 
+(
+	partition p1 values less than(5000),
+	partition p2 values less than(10000),
+	partition p3 values less than(15000),
+	partition p4 values less than(20000)
+);
+
+
+
+/* Show Partitions */
+SELECT TABLE_NAME, PARTITION_NAME, TABLE_ROWS, AVG_ROW_LENGTH, DATA_LENGTH
+FROM INFORMATION_SCHEMA.PARTITIONS
+WHERE TABLE_SCHEMA = 'covid19data' AND TABLE_NAME = 'covid_19_india ';
+
++----------------+----------------+------------+----------------+-------------+
+| TABLE_NAME     | PARTITION_NAME | TABLE_ROWS | AVG_ROW_LENGTH | DATA_LENGTH |
++----------------+----------------+------------+----------------+-------------+
+| covid_19_india | p1             |       5026 |             94 |      475136 |
+| covid_19_india | p2             |       5089 |             93 |      475136 |
+| covid_19_india | p3             |       5084 |             93 |      475136 |
+| covid_19_india | p4             |       3111 |            100 |      311296 |
++----------------+----------------+------------+----------------+-------------+
+
+
+
+
+
+/* Key Partitioning */
+alter table covid_19_india  
+partition by key(Sno) 
+partitions 4;
+
+
+
+/* Show Partitions */
+SELECT TABLE_NAME, PARTITION_NAME, TABLE_ROWS, AVG_ROW_LENGTH, DATA_LENGTH
+FROM INFORMATION_SCHEMA.PARTITIONS
+WHERE TABLE_SCHEMA = 'covid19data' AND TABLE_NAME = 'covid_19_india ';
+
++----------------+----------------+------------+----------------+-------------+
+| TABLE_NAME     | PARTITION_NAME | TABLE_ROWS | AVG_ROW_LENGTH | DATA_LENGTH |
++----------------+----------------+------------+----------------+-------------+
+| covid_19_india | p0             |       2647 |             99 |      262144 |
+| covid_19_india | p1             |          0 |              0 |       16384 |
+| covid_19_india | p2             |          0 |              0 |       16384 |
+| covid_19_india | p3             |       4520 |             94 |      425984 |
++----------------+----------------+------------+----------------+-------------+
+
+
+
+/* Range Column Partitioning */
+alter table covid_19_india  
+partition by range columns(Sno,Cured,Confirmed)
+(
+	PARTITION p0 VALUES LESS THAN (5000,10000,10000),
+	PARTITION p1 VALUES LESS THAN (10000,1000000,1000000),
+	PARTITION p2 VALUES LESS THAN (20000,10000000,10000000)
+);
+
+
+
+/* Show Partitions */
+SELECT TABLE_NAME, PARTITION_NAME, TABLE_ROWS, AVG_ROW_LENGTH, DATA_LENGTH
+FROM INFORMATION_SCHEMA.PARTITIONS
+WHERE TABLE_SCHEMA = 'covid19data' AND TABLE_NAME = 'covid_19_india ';
+
++----------------+----------------+------------+----------------+-------------+
+| TABLE_NAME     | PARTITION_NAME | TABLE_ROWS | AVG_ROW_LENGTH | DATA_LENGTH |
++----------------+----------------+------------+----------------+-------------+
+| covid_19_india | p0             |       5045 |             94 |      475136 |
+| covid_19_india | p1             |       5089 |             93 |      475136 |
+| covid_19_india | p2             |       7992 |            198 |     1589248 |
++----------------+----------------+------------+----------------+-------------+
+
+
+
+/* List Column Partitioning */
+alter table statewisetestingdetailslistpartition  
+partition by list columns(id)
+(
+	partition list1 values in (1,2,3),
+	partition list2 values in (4,5,6),
+	partition list3 values in (7,8,9)
+);
+
+
+
+
+/* Show Partitions */
+SELECT TABLE_NAME, PARTITION_NAME, TABLE_ROWS, AVG_ROW_LENGTH, DATA_LENGTH
+FROM INFORMATION_SCHEMA.PARTITIONS
+WHERE TABLE_SCHEMA = 'covid19data' AND TABLE_NAME = 'statewisetestingdetailslistpartition';
+
++--------------------------------------+----------------+------------+----------------+-------------+
+| TABLE_NAME                           | PARTITION_NAME | TABLE_ROWS | AVG_ROW_LENGTH | DATA_LENGTH |
++--------------------------------------+----------------+------------+----------------+-------------+
+| statewisetestingdetailslistpartition | list1          |          0 |              0 |       16384 |
+| statewisetestingdetailslistpartition | list2          |          0 |              0 |       16384 |
+| statewisetestingdetailslistpartition | list3          |          0 |              0 |       16384 |
++--------------------------------------+----------------+------------+----------------+-------------+

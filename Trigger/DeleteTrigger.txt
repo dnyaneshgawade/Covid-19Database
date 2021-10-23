@@ -1,0 +1,46 @@
+/* create trigger for before delete record*/
+
+     create trigger beforeDelete
+     before delete
+     on statewisetestingdetails
+     for each row
+     begin
+     insert deleted_data(date,state,totalsample,negative,positive) values (old.Date,old.State,old.TotalSamples,old.Negative,old.Positive);
+     end//
+	 
+	 
+
+     create table deleted_data
+     (
+     	date text,
+     	state text,
+     	totalsample int,
+     	negative int,
+     	positive int
+     );
+
+     delete from statewisetestingdetails where State = "Andaman and Nicobar Islands" and Positive=50//
+
+
+
+    /* create trigger for after delete record*/
+
+    create trigger AfterDelete
+    after delete
+    on statewisetestingdetails
+    for each row
+    begin
+    update TotalPositive set TotalPositive=TotalPositive-old.Positive;
+    end//
+
+    create table TotalPositive
+     (
+     TotalPositive bigint
+     )//
+
+ 
+    insert into TotalPositive(totalpositive) select sum(Positive) from statewisetestingdetails//
+
+
+
+    delete from statewisetestingdetails where State = "Andaman and Nicobar Islands" and Positive=90//

@@ -1,0 +1,88 @@
+/*creating index on single column*/ 
+CREATE INDEX covid_19_india_State_Index ON covid_19_india(State_UnionTerritory(255));
+
+CREATE INDEX covid_19_indiaIndex ON (Date(255));
+
+/* show index present in table*/
+SHOW INDEXES FROM covid_19_india;
+
+
+
+/* creating index on multiple column*/
+CREATE INDEX StateVsFirstDoseIndex 
+ON
+covid_vaccine_statewise
+(
+     State(255),
+     TotalDosesAdministered,
+     FirstDoseAdministered
+);
+
+
+
+create procedure index_proc()
+     begin
+          declare exit handler for sqlexception
+          begin
+          rollback;
+          end;
+    
+          declare exit handler for sqlwarning
+          begin
+          rollback;
+          end;
+	 
+          start transaction;
+          CREATE INDEX ProcIndex ON covid_vaccine_statewise(Updated_On);
+          commit;
+     end//
+
+
+/* creating cursor using stored procedure*/
+
+create procedure cursorProcedure( inout date varchar(5000))
+     begin
+          
+
+          declare is_end integer default 0;
+          declare dateList varchar(255) default "";
+          declare dateCursor cursor for
+          select  Date from covid_19_india;
+          declare continue handler for not found set is_end=1;
+          open dateCursor;
+          getdate: loop
+          	fetch dateCursor into dateList;
+		IF is_end = 1 then leave getdate;
+		end if;
+		set date = concat(dateList,",",date);
+	  end loop getdate;
+          close dateCursor;
+     end//
+
+
+/* calling cursor*/
+set @date="";
+call cursorProcedure(@date);
+
+
+
+create procedure StateCursor( inout state_name varchar( 16383))
+     begin
+          declare is_end integer default 0;
+          declare StateList varchar(255) default "";
+          declare cursorOnState cursor for
+          select  State from covid_vaccine_statewise;
+          declare continue handler for not found set is_end=1;
+          open cursorOnState;
+          getstate: loop
+          	fetch cursorOnState into StateList;
+		IF is_end = 1 then leave getstate;
+		end if;
+		set state_name = concat(StateList,",",State_name);
+	  end loop getstate;
+          close cursorOnState;
+     end//
+
+/* calling cursor*/
+set @state_name="";
+call StateCursor(@state_name);
