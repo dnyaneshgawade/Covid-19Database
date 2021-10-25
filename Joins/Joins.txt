@@ -1,0 +1,109 @@
+
+/*Implementation of Inner Joins*/
+select a.State ,b.Confirmed 
+from covid_vaccine_statewise a inner join covid_19_india b 
+on a.vaccine_id=b.Sno;
+
+select a.Date,b.State,a.Deaths,b.Negative,b.Positive 
+from covid_19_india a inner join statewisetestingdetails b
+on a.Sno=b.id;
+
+
+select a.State,a.Sessions,a.Sites,b.TotalSamples 
+from covid_vaccine_statewise a inner join statewisetestingdetails b
+on a.vaccine_id=b.id;
+
+
+
+/*Implementation of Left Joins*/
+select a.State ,b.Confirmed 
+from covid_vaccine_statewise a left join covid_19_india b 
+on a.vaccine_id=b.Sno;
+
+select a.Date,b.State,a.Deaths,b.Negative,b.Positive 
+from covid_19_india a left join statewisetestingdetails b
+on a.Sno=b.id;
+
+
+select a.State,a.Sessions,a.Sites,b.TotalSamples 
+from covid_vaccine_statewise a left join statewisetestingdetails b
+on a.vaccine_id=b.id;
+
+
+
+
+
+/*Implementation of Right Joins*/
+select a.State ,b.Confirmed 
+from covid_vaccine_statewise a right join covid_19_india b 
+on a.vaccine_id=b.Sno;
+
+select a.Date,b.State,a.Deaths,b.Negative,b.Positive 
+from covid_19_india a right join statewisetestingdetails b
+on a.Sno=b.id;
+
+
+select a.State,a.Sessions,a.Sites,b.TotalSamples 
+from covid_vaccine_statewise a right join statewisetestingdetails b
+on a.vaccine_id=b.id;
+
+
+
+
+
+/*Implementation of Cross Joins*/
+select a.State ,b.Confirmed 
+from covid_vaccine_statewise a cross join covid_19_india b 
+on a.vaccine_id=b.Sno;
+
+select a.Date,a.State/UnionTerritory,a.Deaths,b.Negative,b.Positive 
+from covid_19_india a cross join statewisetestingdetails b
+on a.Sno=b.id;
+
+
+select a.State,a.Sessions,a.Sites,b.TotalSamples 
+from covid_vaccine_statewise a cross join statewisetestingdetails b
+on a.vaccine_id=b.id;
+
+
+
+
+
+
+
+
+/*Implementation of Left Outer Joins*/
+select a.State ,b.Confirmed 
+from covid_vaccine_statewise a left outer join covid_19_india b 
+on a.vaccine_id=b.Sno;
+
+select a.Date,b.State,a.Deaths,b.Negative,b.Positive 
+from covid_19_india a left outer join statewisetestingdetails b
+on a.Sno=b.id;
+
+
+select a.State,a.Sessions,a.Sites,b.TotalSamples 
+from covid_vaccine_statewise a left outer join statewisetestingdetails b
+on a.vaccine_id=b.id;
+
+
+
+
+
+
+
+/*Implementation of Right Outer Joins*/
+select a.State ,b.Confirmed 
+from covid_vaccine_statewise a right outer join covid_19_india b 
+on a.vaccine_id=b.Sno;
+
+select a.Date,a.State/UnionTerritory,a.Deaths,b.Negative,b.Positive 
+from covid_19_india a right outer join statewisetestingdetails b
+on a.Sno=b.id;
+
+
+select a.State,a.Sessions,a.Sites,b.TotalSamples 
+from covid_vaccine_statewise a right outer join statewisetestingdetails b
+on a.vaccine_id=b.id;
+
+
