@@ -1,0 +1,192 @@
+ 
+/* DDL COMMANDS */
+
+create database sqlpractice;
+
+
+use sqlpractice;
+Database changed
+
+
+create table StudentInfo
+(
+     RollNo int auto_increment primary key,
+     Name varchar(50),
+     percentage double
+);
+
+
+
+alter table StudentInfo add column Address varchar(50);
+
+
+truncate table StudentInfo;
+
+
+drop table StudentInfo;
+
+
+
+/* DMLCOMMANDS */
+
+
+insert into StudentInfo
+( Name,Percentage,Address)
+values
+("Dnyanesh",80,"pune");
+
+
+insert into StudentInfo
+( Name,Percentage,Address)
+values
+("Rahul",68,"Mumbai");
+
+
+
+/*retrive all data from table*/
+select * from studentInfo;
+
+
+/*use of where clause*/
+select firstName, LastName from studentInfo where ID=4;
+
+
+/*use of and operator*/
+select age from studentInfo where firstname="Ravi" and LastName="Desai";
+
+
+
+/*use of or operator*/
+select firstName,lastName from studentInfo where CurrentCollegeName="SCOE,VADGAON" or CurrentCollegeName=" NBNSCOE - Solapur";
+
+
+
+/*use of not operator*/
+select firstName,lastName from studentInfo where not CurrentCollegeName=" NBNSCOE - Solapur";
+
+
+
+/*use of order by clause*/
+select firstName,lastName from studentInfo order by Percentage asc;
+select firstName,lastName from studentInfo order by Percentage desc;
+
+
+
+/* update the records from table*/
+update studentInfo set Percentage =50 where Percentage=100;
+
+
+
+/* delete the records from table*/
+delete from studentInfo where firstName= "saumya";
+
+
+
+/* use of limit keyword*/
+select * from studentInfo limit 3;
+
+
+/* use of minimum aggregate function*/
+select min(Percentage ) as minimumPercentage  from studentInfo;
+
+
+/* use of maximum aggregate function*/
+select max(Percentage) as maximumPercentage  from studentInfo;
+
+
+
+/* use of count aggregate function*/
+select count(*) as countOfStudent from studentInfo;
+
+
+
+/* use of average aggregate function*/
+select avg(Percentage) as averagePercentage from studentInfo;
+
+
+
+/* use of sum aggregate function*/
+select sum(Percentage) as sumOfPercentage from studentInfo;
+
+
+
+/* use of like function*/
+select * from studentInfo where firstName like 'r%';
+select * from studentInfo where firstName like '%h';
+select * from studentInfo where firstName like '%a%';
+select * from studentInfo where firstName like 'd%h';
+select * from studentInfo where firstName not like 'd%h';
+
+
+/* use of in keyword*/
+select * from studentInfo where Percentage in (90,99);
+select * from studentInfo where CurrentCollegeName in (select CurrentCollegeName from studentInfo);
+
+
+/* use of between keyword*/
+select * from studentInfo where Percentage between 80 and 100;
+
+
+/*use of alias name*/
+select ID as RollNo, FirstName as Name from studentInfo;
+
+
+/* create and insert record into table*/
+create table CollegeInfo
+(
+       CollegeId int auto_increment primary key,
+       CollegeName Varchar(255)
+);
+
+ 
+insert into CollegeInfo (CollegeName) values ("NBN SSOE,AMBEGAON");
+insert into CollegeInfo (CollegeName) values ("NBNSCOE - Solapur");
+insert into CollegeInfo (CollegeName) values ("RMD SSOE, WARJE");
+insert into CollegeInfo (CollegeName) values ("SAE,KONDHWA");
+insert into CollegeInfo (CollegeName) values ("SCOE,VADGAON");
+insert into CollegeInfo (CollegeName) values ("SIOM");
+insert into CollegeInfo (CollegeName) values ("SIT,LONAVALA");
+insert into CollegeInfo (CollegeName) values ("SITS,NARHE");
+insert into CollegeInfo (CollegeName) values ("SKN SITS,LONAVALA");
+insert into CollegeInfo (CollegeName) values ("SKNCOE,VADGAON");
+insert into CollegeInfo (CollegeName) values ("SKNSCOE - Pandharpur");
+
+ALTER TABLE StudentInfo ADD FOREIGN KEY (CurrentCollegeName) REFERENCES CollegeInfo(CollegeId);
+
+
+/* use of joins */
+select a.ID,a.firstName,b.CollegeName from studentInfo a join CollegeInfo b on a.CurrentCollegeName=b.CollegeId;
+select a.ID,a.firstName,b.CollegeName from studentInfo a inner join CollegeInfo b on a.CurrentCollegeName=b.CollegeId;
+select a.ID,a.firstName,b.CollegeName from studentInfo a left join CollegeInfo b on a.CurrentCollegeName=b.CollegeId;
+select a.ID,a.firstName,b.CollegeName from studentInfo a right join CollegeInfo b on a.CurrentCollegeName=b.CollegeId;
+select a.ID,a.firstName,b.CollegeName from studentInfo a cross join CollegeInfo b on a.CurrentCollegeName=b.CollegeId;
+
+
+/* use of union keyword*/
+select ID from studentInfo
+union all
+select CollegeId from CollegeInfo;
+
+
+
+/* use of group by clause*/
+select * from studentInfo group by CurrentCollegeName;
+select * from studentInfo group by CurrentCollegeName order by ID;
+
+
+
+/* use of having clause*/
+select * from studentInfo group by CurrentCollegeName having Percentage= 80;
+
+
+/* use of exist keyword*/
+select ID,firstName from studentInfo where exists(select * from studentInfo where CurrentCollegeName = 3);
+
+
+/* use of any keyword*/
+select firstName from studentInfo where Percentage = any (select Percentage from studentInfo where Percentage > 60);
+
+
+
+/* use of all keyword*/
+select firstName from studentInfo where Percentage = all (select Percentage from studentInfo where Percentage < 60);
