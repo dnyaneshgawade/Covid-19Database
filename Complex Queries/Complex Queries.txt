@@ -75,3 +75,21 @@ mysql> select
 | Dnyanesh   | Gawade    |   200000011 | boa1110   |         2021 | B.E         |
 +------------+-----------+-------------+-----------+--------------+-------------+
 2 rows in set (0.01 sec)
+
+
+
+
+
+mysql> select
+    -> CollegeId,CollegeName
+    -> from collegeinfo
+    -> join studentinfo on collegeinfo.CollegeId =studentinfo.CurrentCollegeName
+    -> group by
+    -> CollegeId
+    -> having (select distinct CurrentCollegeName from studentinfo
+    -> where
+    -> CurrentCollegeName not in (select CollegeId from collegeinfo));
+
+
+
+Empty set (0.01 sec)
