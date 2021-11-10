@@ -190,3 +190,4 @@ select firstName from studentInfo where Percentage = any (select Percentage from
 
 /* use of all keyword*/
 select firstName from studentInfo where Percentage = all (select Percentage from studentInfo where Percentage < 60);
+

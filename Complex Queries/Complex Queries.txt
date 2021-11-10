@@ -1,0 +1,77 @@
+mysql> select
+    -> studentinfo.firstName,studentinfo.LastName,collegeinfo.CollegeName
+    -> from studentinfo
+    -> join collegeinfo on collegeinfo.CollegeId =studentinfo.CurrentCollegeName
+    -> group by
+    -> CurrentCollegeName
+    -> having ( select max(Percentage) from studentinfo
+    -> where
+    -> studentinfo.Percentage <> (select max(Percentage) from studentinfo));
+
+
++----------------+--------------+----------------------+
+| firstName      | LastName     | CollegeName          |
++----------------+--------------+----------------------+
+| Pranali        | Shirsat      | NBN SSOE,AMBEGAON    |
+| Anil           | Mutyelu      | NBNSCOE - Solapur    |
+| Chaitanya      | Kabadi       | RMD SSOE, WARJE      |
+| Piyush         | Dhanorkar    | SAE,KONDHWA          |
+| Pooja          | Muley        | SCOE,VADGAON         |
+| Samuel         | D'Souza      | SIOM                 |
+| Abhay          | Singh        | SIT,LONAVALA         |
+| Amol           | Kale         | SITS,NARHE           |
+| Salman         | Feroz Akhtar | SKN SITS,LONAVALA    |
+| Deepjyot Singh | Kapoor       | SKNCOE,VADGAON       |
+| Vaibhavi       | Sugandhi     | SKNSCOE - Pandharpur |
++----------------+--------------+----------------------+
+11 rows in set (0.02 sec)
+
+
+mysql> select
+    -> collegeinfo.CollegeName,count(FirstName) as TotalStudents
+    -> from studentinfo
+    -> join collegeinfo on collegeinfo.CollegeId =studentinfo.CurrentCollegeName
+    -> group by
+    -> CurrentCollegeName ;
+
+
+
++----------------------+---------------+
+| CollegeName          | TotalStudents |
++----------------------+---------------+
+| NBN SSOE,AMBEGAON    |             9 |
+| NBNSCOE - Solapur    |            36 |
+| RMD SSOE, WARJE      |             6 |
+| SAE,KONDHWA          |            19 |
+| SCOE,VADGAON         |            98 |
+| SIOM                 |             5 |
+| SIT,LONAVALA         |            70 |
+| SITS,NARHE           |            32 |
+| SKN SITS,LONAVALA    |             9 |
+| SKNCOE,VADGAON       |           129 |
+| SKNSCOE - Pandharpur |            53 |
++----------------------+---------------+
+11 rows in set (0.02 sec)
+
+
+
+
+
+mysql> select
+    -> f.first_name, f.last_name, c.account_num , c.ifsc_code, cf.passing_year  , cf.degree_name
+    -> from fellowship_candidates f
+    -> INNER JOIN candidate_bank_det c ON f.id = c.candidate_id
+    -> INNER JOIN candidate_qualification cf ON f.id = cf.candidate_id
+    -> GROUP BY last_name
+    -> having (select max(parent_annual_sal ) from fellowship_candidates
+    -> where id >0);
+
+
+
++------------+-----------+-------------+-----------+--------------+-------------+
+| first_name | last_name | account_num | ifsc_code | passing_year | degree_name |
++------------+-----------+-------------+-----------+--------------+-------------+
+| Deepak     | Patil     |   200000001 | boa1110   |         2021 | B.E         |
+| Dnyanesh   | Gawade    |   200000011 | boa1110   |         2021 | B.E         |
++------------+-----------+-------------+-----------+--------------+-------------+
+2 rows in set (0.01 sec)
