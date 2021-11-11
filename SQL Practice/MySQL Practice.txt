@@ -191,3 +191,37 @@ select firstName from studentInfo where Percentage = any (select Percentage from
 /* use of all keyword*/
 select firstName from studentInfo where Percentage = all (select Percentage from studentInfo where Percentage < 60);
 
+
+
+/* Input validatation in table creation */
+
+create table inputCheck
+(
+     id int auto_increment primary key,
+     name varchar (255),
+     salary bigint,
+     constraint check_salary check(salary >= 30000 and salary <=70000)
+);
+
+mysql> insert into inputCheck (name,salary) values ("dnyanesh",50000);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into inputCheck (name,salary) values ("saurabh",80000);
+ERROR 3819 (HY000): Check constraint 'check_salary' is violated.
+
+
+/* Try to add constraint with same name */
+alter table inputCheck add constraint check_salary check(salary >= 40000 and salary <=50000);
+
+ERROR 3822 (HY000): Duplicate check constraint name 'check_salary'.
+
+
+/* display all constraints */
+mysql> select * from information_schema.table_constraints where table_name="inputCheck";
+
++--------------------+-------------------+-----------------+--------------+------------+-----------------+----------+
+| CONSTRAINT_CATALOG | CONSTRAINT_SCHEMA | CONSTRAINT_NAME | TABLE_SCHEMA | TABLE_NAME | CONSTRAINT_TYPE | ENFORCED |
++--------------------+-------------------+-----------------+--------------+------------+-----------------+----------+
+| def                | sqlpractice       | PRIMARY         | sqlpractice  | inputcheck | PRIMARY KEY     | YES      |
+| def                | sqlpractice       | check_salary    | sqlpractice  | inputcheck | CHECK           | YES      |
++--------------------+-------------------+-----------------+--------------+------------+-----------------+----------+
